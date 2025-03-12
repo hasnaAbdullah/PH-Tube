@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body>
-    <div class="container max-w-[1440px] mx-auto">
+    <div class="container max-w-[1440px] mx-auto px-2">
       <header>
         <nav
           class="py-5 border-b-2 border-gray-300 flex justify-between items-center"
@@ -22,16 +22,67 @@
           <div class="logo">
             <img class="w-[140px]" src="assets/Logo.png" alt="" />
           </div>
-          <div class="sort btn bg-gray-200 text-lg font-medium">
-            sort by view
-          </div>
+          <div class="sort btn bg-gray-200 font-medium">sort by view</div>
           <div class="blogs">
-            <button class="btn bg-red-500 text-white text-lg font-medium">
-              Blog
-            </button>
+            <button class="btn bg-red-500 text-white font-medium">Blog</button>
           </div>
         </nav>
       </header>
+
+      <main>
+        <nav
+          class="catergory-container flex justify-center items-center gap-5 py-6"
+        >
+          <div>
+            <button
+              onclick="getVideoes()"
+              class="btn btn-sm bg-red-500 text-white"
+            >
+              All
+            </button>
+          </div>
+          <!-- <button class="btn btn-sm bg-gray-200 text-gray-600">Music</button> -->
+        </nav>
+        <section
+          id="video-container"
+          class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          <!-- <div class="card bg-base-100 max-w-96 shadow-sm">
+            <figure class="relative">
+              <img
+                class="w-full h-[200px] rounded-lg"
+                src="https://i.ibb.co/hY496Db/coloer-of-the-wind.jpg"
+                alt="Shoes"
+              />
+              <span
+                class="absolute bg-black px-2 py-1 text-white bottom-2 right-2 rounded-md text-sm"
+                >3 hrs 56 min ago</span
+              >
+            </figure>
+            <div class="px-0 py-5 flex items-start gap-2">
+              <div class="profile avatar">
+                <div class="w-12 rounded-full">
+                  <img
+                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  />
+                </div>
+              </div>
+              <div class="space-y-1">
+                <h2 class="card-title">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                </h2>
+                <div class="flex">
+                  <p class="text-sm text-gray-500">Awlad Hossain</p>
+                  <img class="w-[20px] ml-2" src="assets/varify.png" alt="" />
+                </div>
+                <p class="text text-gray-500">91k views</p>
+              </div>
+            </div>
+          </div> -->
+        </section>
+      </main>
     </div>
+
+    <script src="scripts/script.js"></script>
   </body>
 </html>
