@@ -12,37 +12,64 @@
       type="text/css"
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+      .active {
+        background-color: red;
+        color: white;
+      }
+    </style>
   </head>
   <body>
     <div class="container max-w-[1440px] mx-auto px-2">
       <header>
         <nav
-          class="py-5 border-b-2 border-gray-300 flex justify-between items-center"
+          class="py-5 border-b-2 border-gray-300 flex gap-5 flex-wrap justify-between items-center"
         >
           <div class="logo">
             <img class="w-[140px]" src="assets/Logo.png" alt="" />
           </div>
-          <div class="sort btn bg-gray-200 font-medium">sort by view</div>
-          <div class="blogs">
-            <button class="btn bg-red-500 text-white font-medium">Blog</button>
+          <div class="max-[600px]:order-2 max-[600px]:mx-auto">
+            <input
+              id="search-btn"
+              type="text"
+              class="input w-[300px] max-w-[500px] focus:border-none"
+            />
+          </div>
+          <div class="blogs max-[600px]:order-1">
+            <button id="sorted-btn" class="btn btn-sm bg-gray-700 text-white">
+              sort by view
+            </button>
           </div>
         </nav>
       </header>
 
       <main>
-        <nav
-          class="catergory-container flex justify-center items-center gap-5 py-6"
-        >
-          <div>
-            <button
-              onclick="getVideoes()"
-              class="btn btn-sm bg-red-500 text-white"
-            >
-              All
-            </button>
+        <nav class="flex justify-center items-center py-6">
+          <div id="category-container" class="flex items-center gap-5">
+            <div>
+              <button
+                id="selected-btn"
+                onclick="getVideos()"
+                class="btn cat-button btn-sm active text-gray-500"
+              >
+                All
+              </button>
+            </div>
           </div>
+
           <!-- <button class="btn btn-sm bg-gray-200 text-gray-600">Music</button> -->
         </nav>
+
+        <section
+          id="loader"
+          class="flex items-center justify-center h-96 hidden"
+        >
+          <span class="loading loading-spinner loading-xs"></span>
+          <span class="loading loading-spinner loading-sm"></span>
+          <span class="loading loading-spinner loading-md"></span>
+          <span class="loading loading-spinner loading-lg"></span>
+          <span class="loading loading-spinner loading-xl"></span>
+        </section>
         <section
           id="video-container"
           class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
@@ -81,8 +108,25 @@
           </div> -->
         </section>
       </main>
+
+      <!-- Open the modal using ID.showModal() method -->
+
+      <dialog id="video_details" class="modal">
+        <div class="modal-box w-full">
+          <!-- showing card data -->
+          <div id="modal-container"></div>
+
+          <!-- closing modal -->
+          <div class="modal-action">
+            <form class="w-full" method="dialog">
+              <!-- if there is a button in form, it will close the modal -->
+              <button class="btn btn-block">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
 
-    <script src="scripts/script.js"></script>
+    <script src="scripts/script-02.js"></script>
   </body>
 </html>

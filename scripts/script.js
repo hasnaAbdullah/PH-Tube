@@ -10,6 +10,7 @@ async function getCategory() {
   const dataRes = await fetch(
     "https://openapi.programming-hero.com/api/phero-tube/categories"
   );
+  // console.log(dataRes);
   const data = await dataRes.json();
   //   console.log(data.categories);
   showCategoryInHTML(data.categories);
@@ -21,7 +22,7 @@ function showCategoryInHTML(categories) {
     // create category element
     const categoryDiv = document.createElement("div");
     categoryDiv.innerHTML = `
-    <button onclick="loadVideos(${category.category_id})" class="btn btn-sm bg-gray-200 text-gray-600">${category.category}</button> 
+    <button id="btn-${category.category_id}" onclick="loadCategoryVideos(${category.category_id})" class="btn btn-sm bg-gray-200 text-gray-600">${category.category}</button> 
     `;
     // append category in category container
     categoryContainer.appendChild(categoryDiv);
@@ -35,10 +36,18 @@ function showCategoryInHTML(categories) {
 //     -loop kore card toiri kore display te show korai dibo
 //   )
 
-function getVideoes() {
+function getVideos() {
   fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
     .then((dataRes) => dataRes.json())
-    .then((data) => showVideoInHTML(data.videos));
+    .then((data) => {
+      const selectedBtn = document.getElementById("selected-btn");
+      if (!selectedBtn.classList.contains("active")) {
+        removeActiveClass();
+        selectedBtn.classList.add("active");
+      }
+      console.log(data.videos[1]);
+      showVideoInHTML(data.videos);
+    });
 }
 
 function showVideoInHTML(videos) {
@@ -67,7 +76,7 @@ function createVideoCard(video) {
       />
       <span
         class="absolute bg-black px-2 py-1 text-white bottom-2 right-2 rounded-md text-sm"
-        >3 hrs 56 min ago</span
+        >3 hrs 30 min ago</span
       >
     </figure>
     <div class="px-0 py-5 flex items-start gap-2">
@@ -84,11 +93,19 @@ function createVideoCard(video) {
         </h2>
         <div class="flex">
           <p class="text-sm text-gray-500">${video.authors[0].profile_name}</p>
-          <img class="w-[20px] ml-2" src="assets/varify.png" alt="" />
+          ${
+            video.authors[0].verified
+              ? `<img class="w-[20px] ml-2" src="assets/varify.png" alt="" />`
+              : ""
+          } 
+          
         </div>
         <p class="text text-gray-500">${video.others.views} views</p>
       </div>
     </div>
+    <button onclick="videoDetails('${
+      video.video_id
+    }')" class="btn btn-block">Details</button>
   </div>
   `;
 }
@@ -98,9 +115,9 @@ function createVideoCard(video) {
 //    - category button e ekta event handler bosanu and oi handler ekta id pass kora
 //    - oi id diye url toiri kora then oi url diye data fetch kore vidoe load kora
 
-function loadVideos(id) {
+function loadCategoryVideos(id) {
   // jdi category te click kore taile id pass hobe. r jdi id thake tahole oi category id diye url toiri kore video load kora hobe. r jdi category te click na kore . ba all e click korle othoba normally id pass hobe na tai all video load hobe
-  if (id) {
+  /*if (id) {
     fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
       .then((res) => res.json())
       .then((data) => showVideoInHTML(data.category));
@@ -108,6 +125,21 @@ function loadVideos(id) {
     fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
       .then((dataRes) => dataRes.json())
       .then((data) => showVideoInHTML(data.videos));
+  }*/
+
+  fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      removeActiveClass();
+      const currentCatButton = document.getElementById(`btn-${id}`);
+      currentCatButton.classList.add("active");
+      showVideoInHTML(data.category);
+    });
+}
+function removeActiveClass() {
+  const activeButtons = document.getElementsByClassName("active");
+  for (const cat of activeButtons) {
+    cat.classList.remove("active");
   }
 }
 function showErroMessage() {
@@ -117,27 +149,26 @@ function showErroMessage() {
   errorDiv.innerHTML = `
   <div class="hero bg-base-200 py-28 ">
     <div class="hero-content text-center">
-      <div class="max-w-md flex flex-col items-center">
+      <div class="max-w-md  flex flex-col items-center">
         <img src="assets/Icon.png" alt="" />
-        <p class="py-6 text-3xl font-bold">
+        <h2 class="py-6 text-3xl font-bold">
           Oops!! Sorry, There is no content here
-        </p>
+        </h2>
       </div>
     </div>
   </div>
   `;
   videoContainer.appendChild(errorDiv);
 }
-
-// task 04:
-//    - set bg on selected category
-
-function selectedCat() {
-  const categoryContainer = document.querySelector(".catergory-container");
-  console.log(categoryContainer);
-  const categories = categoryContainer.children;
-  console.log(categories);
+function videoDetails(videoId) {
+  console.log(videoId);
+  fetch("https://openapi.programming-hero.com/api/phero-tube/video/aaac")
+    .then((res) => res.json())
+    .then((details) => showVideoDetails(details.video));
 }
-selectedCat();
+function showVideoDetails(details) {
+  console.log(details);
+}
 getCategory();
-loadVideos();
+
+// getVideos();
